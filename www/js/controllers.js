@@ -9,7 +9,16 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('ProgramsCtrl', function($scope, Programs,$http) {
+.controller('ProgramsCtrl', function($scope, Programs,$http,$cordovaSQLite) {
+
+  var query = "INSERT INTO people (firstname, lastname) VALUES (?,?)";
+  $cordovaSQLite.execute(db, query, ['firstname', 'lastname']).then(function(res) {
+      console.log("INSERT ID -> " + res.insertId);
+  }, function (err) {
+      console.error(err);
+  });
+
+
   url = 'http://gymmie.dev/wp-json/posts?type[]=program';
   $http.get(url).
     success(function(data) {  
